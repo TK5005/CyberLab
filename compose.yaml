@@ -1,0 +1,36 @@
+networks:
+  cyberNet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/16
+          gateway: 172.20.0.1
+
+services:
+  web_server:
+    container_name: "web_server"
+    build: ./ubuntu
+    tty: true
+    networks:
+      cyberNet:
+        ipv4_address: 172.20.0.3
+
+  attacker:
+    container_name: "attacker"
+    build: ./leplusorg
+    tty: true
+    networks:
+      cyberNet:
+        ipv4_address: 172.20.0.2
+
+  reverse_proxy:
+    container_name: "reverse_proxy"
+    build: ./nginx
+    tty: true
+    networks:
+      cyberNet:
+        ipv4_address: 172.20.0.4
+    ports:
+      - "80:80"
+      - "443:443"
