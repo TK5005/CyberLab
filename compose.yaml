@@ -8,8 +8,8 @@ networks:
           gateway: 172.20.0.1
 
 services:
-  web_server:
-    container_name: "web_server"
+  ubuntu_machine:
+    container_name: "ubuntu_machine"
     build: ./ubuntu
     tty: true
     networks:
@@ -24,8 +24,8 @@ services:
       cyberNet:
         ipv4_address: 172.20.0.2
 
-  reverse_proxy:
-    container_name: "reverse_proxy"
+  web_server:
+    container_name: "web_server"
     build: ./nginx
     tty: true
     networks:
