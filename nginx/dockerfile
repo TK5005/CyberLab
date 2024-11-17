@@ -3,7 +3,7 @@ FROM nginx:latest
 RUN mkdir /usr/share/nginx/html/submit
 
 COPY c2_config.c2 /etc/nginx/conf.d/default.conf
-COPY cyberdemologo.jpeg /usr/share/nginx/html/cyberdemologo.jpeg
+COPY cyberdemologo.jpeg /usr/share/nginx/html/submit/cyberdemologo.jpeg
 COPY index.html /usr/share/nginx/html/index.html
 COPY bannerlogo.png /usr/share/nginx/html/bannerlogo.png
 COPY illustration.png /usr/share/nginx/html/illustration.png
