@@ -6,6 +6,12 @@ This document will take you through creating three docker containers, a web serv
 There are two ways to do this, manually or through the autmated code in this repository. We will show you both ways.
 ## Docker Crash Course
 ```
+# Install Docker
+apt-get update
+curl -fsSL https://get.docker.com -o get-docker.sh
+sudo sh get-docker.sh
+docker
+
 # Show all running containers
 docker ps
 
@@ -16,6 +22,11 @@ docker ps -a
 docker images
 ```
 ## Manual Home Lab Creation
+### Create the cyberNet Network
+```
+# Create a network the containers can connect to
+docker network create -d bridge cyberNet --subnet 172.20.0.0/16 --gateway 172.20.0.1
+```
 ### Create the Containers
 #### The Ubuntu Container
 Open a new terminal window to create the Ubuntu container and install its dependencies
@@ -27,7 +38,7 @@ docker pull ubuntu:latest
 # run the ubuntu image with the name ubuntu_machine in interactive terminal mode
 # --name: the name of the container
 # -it: run in interactive terminal mode
-docker run --name ubuntu_machine -it ubuntu
+docker run --name ubuntu_machine --network cyberNet --ip 172.20.0.3 -it ubuntu
 ```
 ##### Install Ubuntu dependencies
 ```
@@ -47,7 +58,7 @@ docker pull nginx:latest
 # run the nginx image with the name web_server
 # -it: Interactive terminal mode
 # -p: map ports to host machine
-docker run --name web_server -it -p 80:80 -p 443:443 nginx /bin/sh
+docker run --name web_server --network cyberNet --ip 172.20.0.4 -it -p 80:80 -p 443:443 nginx /bin/sh
 ```
 ##### Install Web Server dependencies
 ```
@@ -67,7 +78,7 @@ docker pull leplusorg/kali:latest
 # run the ubuntu image with the name ubuntu_machine in interactive terminal mode
 # --name: the name of the container
 # -it: run in interactive terminal mode
-docker run --name attacker -it leplusorg/kali
+docker run --name attacker --network cyberNet --ip 172.20.0.2 -it leplusorg/kali
 ```
 ##### Install Attacker dependencies
 ```
