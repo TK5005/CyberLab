@@ -88,3 +88,58 @@ apt-get update
 # Install iproute2, iputils-ping, python3, python3-pip
 apt-get install iproute2 iputils-ping python3 python3-pip
 ```
+### Copy Dependencies into Containers
+The following commands are to be done in a terminal on the host machine
+#### Copy web_server dependencies
+```
+# Copy c2_config.c2 file from nginx folder to web_server
+docker cp nginx/c2_config.c2 web_server:/etc/nginx/conf.d/default.conf
+
+# Make submit directory in web_server
+docker exec web_server mkdir /usr/share/nginx/html/submit
+
+# Copy cyberdemologo.jpeg file from nginx folder to web_server
+docker cp nginx/cyberdemologo.jpeg web_server:/usr/share/nginx/html/submit
+
+# Copy index.html file from nginx folder to web_server
+docker cp nginx/index.html web_server:/usr/share/nginx/html/
+
+# Copy bannerlogo.png file from nginx folder to web_server
+docker cp nginx/bannerlogo.png web_server:/usr/share/nginx/html/
+
+# Copy illustration.png file from nginx folder to web_server
+docker cp nginx/illustration.png web_server:/usr/share/nginx/html/
+
+# Copy submit.html from nginx folder to web_server
+docker cp nginx/submit.html web_server:/usr/share/nginx/html/submit/index.html
+```
+#### Copy attacker dependencies
+```
+# Make directory simple-https-python-server
+docker exec attacker mkdir /simple-https-python-server
+
+# Copy simple_https.py from leplusorg folder to attacker
+docker cp leplusorg/simple_https.py attacker:/simple-https-python-server/simple_https.py
+
+# Copy skynet.gif file from leplusorg folder to attacker
+docker cp leplusorg/skynet.gif attacker:/simple-https-python-server/skynet.gif
+
+# Copy submit.html file from leplusorg folder to attacker
+docker cp leplusorg/submit.html attacker:/simple-https-python-server/submit.html
+```
+### Generate Certificates using OpenSSL
+Now we will create a Self-Signed Certificate, so we can serve https rather than http through our web server.
+In the web_server container terminal execute the following command:
+```
+openssl req -x509 -nodes -days 365 -newkey rsa:4096 -keyout /etc/ssl/private/nginx-selfsigned.key -out /etc/ssl/certs/nginx-selfsigned.crt -subj "/C=US/ST=MD/O=CyberSecurityDemo/OU=IT/CN=presentation.com"
+```
+#### Reload nginx on web server
+```
+nginx -s reload
+```
+### Manual Mode Finished
+You should now be able to go to https://localhost and log in to a web portal and see a homepage.
+### Manual Mode Attack
+Now lets execute an attack against the web server by forwarding post requests to the attack container. This attack container will steal the credentials of the user logging in.
+#### Copy the certificates from the web_server to the attacker
+TODO
