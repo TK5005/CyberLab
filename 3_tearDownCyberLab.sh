@@ -1,5 +1,5 @@
 # Tear down running containers
-docker-compose down
+docker compose down
 
 # Delete docker images
 docker rmi -f cyberlab-ubuntu_machine
