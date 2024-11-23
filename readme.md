@@ -21,8 +21,62 @@ docker ps -a
 # Show all docker images
 docker images
 ```
+## Automated Home Lab Creation
+### Build the Cyberlab
+To build the CyberLab you just need to run 1_buildCyberLab.sh on your linux machine. Ensure docker is installed before running.
+```
+# Build CyberLab
+./1_buildCyberLab.sh
+```
+</br>
+<img src="readmeImages/buildCyberLab.png" alt="Build Cyber Lab Script" width="500"/>
+
+After a few minutes the docker images will be created and the containers launched
+</br>
+<img src="readmeImages/buildCyberLabFinished.png" alt="Build Cyber Lab Finished Script" width="500"/>
+
+You Should now be able to go to https://localhost and see a login page.
+</br>
+<img src="readmeImages/loginPage.png" alt="Login Page" width="500"/>
+
+Once you log in you will be greeted with the landing page.
+</br>
+<img src="readmeImages/landingPage.png" alt="Landing Page" width="500"/>
+
+### Run the Attack Script
+Now lets run the attack and steal the credentials of the user logging in.
+```
+# Run the attack script
+./2_attackServer.sh
+```
+You should now be inside the terminal of the attacker container
+</br>
+<img src="readmeImages/attackerTerminalStart.png" alt="Attacker Terminal" width="500"/>
+
+We are going to start the attacker python web server script
+```
+# Change directorties to the location of the simple_https.py script
+cd simple-https-python-server
+
+# Launch simple_https.py on attacker system
+python3 simple_https.py
+```
+#### Test the attack
+Leave the attacker terminal open and log into the web page with some credentials. Notice the new website that shows up and the stolen credentials in the attackers terminal.
+</br>
+<img src="readmeImages/loginPage.png" alt="Login Page" width="500"/>
+<img src="readmeImages/skynetPage.png" alt="Landing Page" width="500"/>
+<img src="readmeImages/attackerTerminal.png" alt="Attacker Terminal" width="500"/>
+
+### Teardown the CyberLab
+To tear down the CyberLab, run 3_tearDownCyberLab.sh. This scrip will delete all containers, images and networks that were created for the lab.
+```
+# Tear down CyberLab
+./3_tearDownCyberLab.sh
+```
+
 ## Manual Home Lab Creation
-### Create the cyberNet Network
+### Create the cyberNet Networkz
 ```
 # Create a network the containers can connect to
 docker network create -d bridge cyberNet --subnet 172.20.0.0/16 --gateway 172.20.0.1
@@ -178,5 +232,5 @@ python3 simple_https.py
 Leave the attacker terminal open and log into the web page with some credentials. Notice the new website that shows up and the stolen credentials in the attackers terminal.
 </br>
 <img src="readmeImages/loginPage.png" alt="Login Page" width="500"/>
-<img src="readmeImages/landingPage.png" alt="Landing Page" width="500"/>
+<img src="readmeImages/skynetPage.png" alt="Landing Page" width="500"/>
 <img src="readmeImages/attackerTerminal.png" alt="Attacker Terminal" width="500"/>
