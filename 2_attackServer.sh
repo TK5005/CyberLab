@@ -1,4 +1,4 @@
-# Copy public and private keys from reverse proxy to simulate stolen certs
+# Copy public and private keys from web server to simulate stolen certs
 docker cp web_server:/etc/ssl/private/nginx-selfsigned.key .
 docker cp web_server:/etc/ssl/certs/nginx-selfsigned.crt .
 

